@@ -5,53 +5,152 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Free Age Calculator - Calculate Exact Age in Years, Months & Days | Daily Utilities</title>
-  <meta name="description" content="Use our free online Age Calculator at Daily Utilities to calculate your exact age in years, months, weeks, and days based on your birth date.">
+  <meta name="description" content="Use our free online Age Calculator at Daily Utilities to calculate your exact age in years, months, weeks, and days based on your birth date. Fast and easy!">
   <meta name="keywords" content="age calculator, calculate age online, exact age calculator, age in days calculator, daily utilities age calculator">
   
   <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* Additional inline styles to make the calculator and text look premium */
+    .calculator-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      max-width: 500px;
+      margin: 0 auto 2rem auto;
+      border: 1px solid #e0e0e0;
+    }
+    .result-box {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background-color: #e8f8f5;
+      border-left: 5px solid #27ae60;
+      border-radius: 4px;
+      display: none; /* Hidden until calculated */
+    }
+    .age-main {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+    .stats-list {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+    .stats-list li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: #555;
+    }
+    .content-section {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 8px;
+      max-width: 800px;
+      margin: 2rem auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e0e0e0;
+    }
+    .content-section h2, .content-section h3 {
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
+    .content-section p {
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      color: #444;
+    }
+  </style>
 </head>
 <body>
   <header>
     <a href="index.html" class="back-link">← Back to All Tools</a>
     <h1>Age Calculator</h1>
+    <p style="margin-top: 10px; font-size: 0.95rem;">Calculate your exact age instantly!</p>
   </header>
 
   <main class="container">
+    
     <div class="calculator-card">
       <label for="dob">Select Your Date of Birth:</label>
       <input type="date" id="dob">
-      <button onclick="calculateAge()">Calculate Age</button>
+      <button onclick="calculateAge()">Calculate Exact Age</button>
 
-      <div id="result"></div>
+      <div id="result" class="result-box"></div>
     </div>
+
+    <section class="content-section">
+      <h2>How to Use Our Online Age Calculator</h2>
+      <p>Our free <strong>Age Calculator</strong> is designed to help you find your exact age down to the number of years, months, and days passed since your birth. Whether you are filling out an official form, checking eligibility, or just curious, this tool provides instant and accurate results.</p>
+      <p>Simply click on the calendar icon, select your exact date of birth, and click the "Calculate Exact Age" button. The tool will instantly generate your age along with fun facts like total days lived and a countdown to your next birthday!</p>
+
+      <h3>Frequently Asked Questions (FAQ)</h3>
+      
+      <h4>How accurate is this age calculator?</h4>
+      <p>It is 100% accurate. The underlying script calculates the exact time difference between your selected date of birth and today's date, automatically accounting for leap years and the varying lengths of different months.</p>
+
+      <h4>Why should I use the Daily Utilities Age Calculator?</h4>
+      <p>Unlike many other websites, Daily Utilities provides a clean, lightning-fast, and lightweight tool without intrusive pop-up ads or slow page loading times. Your data is also processed locally on your device's browser, meaning your birth date is entirely private and is never saved to a server.</p>
+
+      <h4>How do you calculate leap years?</h4>
+      <p>Our tool uses standard calendar algorithms. If your birthday falls on February 29th during a leap year, the calculator adjusts the month and day counts accurately depending on the current year's calendar layout.</p>
+    </section>
+
   </main>
 
+  <footer>
+    <p>&copy; 2026 Daily Utilities. All rights reserved.</p>
+  </footer>
+
   <script>
+    // Set max date to today so users can't select future dates
+    const dobInput = document.getElementById('dob');
+    dobInput.max = new Date().toISOString().split("T")[0];
+
     function calculateAge() {
-      const dobInput = document.getElementById('dob').value;
+      const dobValue = dobInput.value;
       const resultDiv = document.getElementById('result');
 
-      if (!dobInput) {
-        resultDiv.innerHTML = "<p class='error'>Please select a date of birth.</p>";
+      // Clear previous error styles
+      resultDiv.style.borderLeftColor = '#27ae60';
+      resultDiv.style.backgroundColor = '#e8f8f5';
+
+      if (!dobValue) {
+        resultDiv.style.display = 'block';
+        resultDiv.style.borderLeftColor = '#e74c3c';
+        resultDiv.style.backgroundColor = '#fdedec';
+        resultDiv.innerHTML = "<p style='color: #e74c3c; font-weight: bold;'>Please select your date of birth from the calendar.</p>";
         return;
       }
 
-      const dob = new Date(dobInput);
+      const dob = new Date(dobValue);
       const today = new Date();
 
-      if (dob > today) {
-        resultDiv.innerHTML = "<p class='error'>Date of birth cannot be in the future!</p>";
+      // Set times to midnight to ensure exact day calculations
+      dob.setHours(0, 0, 0, 0);
+      const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+      if (dob > todayOnly) {
+        resultDiv.style.display = 'block';
+        resultDiv.style.borderLeftColor = '#e74c3c';
+        resultDiv.style.backgroundColor = '#fdedec';
+        resultDiv.innerHTML = "<p style='color: #e74c3c; font-weight: bold;'>Date of birth cannot be in the future!</p>";
         return;
       }
 
+      // Calculate Years, Months, Days
       let years = today.getFullYear() - dob.getFullYear();
       let months = today.getMonth() - dob.getMonth();
       let days = today.getDate() - dob.getDate();
 
       if (days < 0) {
         months--;
-        const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
-        days += lastMonth.getDate();
+        // Get number of days in the previous month
+        const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+        days += prevMonth.getDate();
       }
 
       if (months < 0) {
@@ -59,11 +158,32 @@
         months += 12;
       }
 
+      // Calculate Extra Fun Stats (Total Days, Weeks, Next Birthday)
+      const diffTime = Math.abs(todayOnly - dob);
+      const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const totalWeeks = Math.floor(totalDays / 7);
+
+      // Next Birthday Logic
+      let nextBirthday = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+      if (todayOnly > nextBirthday) {
+        nextBirthday.setFullYear(today.getFullYear() + 1);
+      }
+      const daysToNextBirthday = Math.ceil((nextBirthday - todayOnly) / (1000 * 60 * 60 * 24));
+
+      // Display Results
+      resultDiv.style.display = 'block';
       resultDiv.innerHTML = `
-        <div class="result-box">
-          <h3>Your Age:</h3>
-          <p><strong>${years}</strong> Years, <strong>${months}</strong> Months, and <strong>${days}</strong> Days</p>
-        </div>
+        <h3 style="color: #2c3e50; margin-bottom: 8px;">Your Exact Age:</h3>
+        <p class="age-main"><strong>${years}</strong> Years, <strong>${months}</strong> Months, and <strong>${days}</strong> Days</p>
+        
+        <hr style="margin: 15px 0; border: 0; border-top: 1px solid #c8e6c9;">
+        
+        <h4 style="color: #2c3e50; margin-bottom: 12px;">Fun Facts Summary:</h4>
+        <ul class="stats-list">
+          <li>📅 <strong>Total Days Lived:</strong> ${totalDays.toLocaleString()} days</li>
+          <li>🗓️ <strong>Total Weeks Lived:</strong> ${totalWeeks.toLocaleString()} weeks</li>
+          <li>🎉 <strong>Next Birthday In:</strong> ${daysToNextBirthday} days</li>
+        </ul>
       `;
     }
   </script>
