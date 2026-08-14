@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator - Daily Utility Tools</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="index.html" class="back-link">← Back to All Tools</a>
+    <h1>Age Calculator</h1>
+  </header>
+
+  <main class="container">
+    <div class="calculator-card">
+      <label for="dob">Select Your Date of Birth:</label>
+      <input type="date" id="dob">
+      <button onclick="calculateAge()">Calculate Age</button>
+
+      <div id="result"></div>
+    </div>
+  </main>
+
+  <script>
+    function calculateAge() {
+      const dobInput = document.getElementById('dob').value;
+      const resultDiv = document.getElementById('result');
+
+      if (!dobInput) {
+        resultDiv.innerHTML = "<p class='error'>Please select a date of birth.</p>";
+        return;
+      }
+
+      const dob = new Date(dobInput);
+      const today = new Date();
+
+      if (dob > today) {
+        resultDiv.innerHTML = "<p class='error'>Date of birth cannot be in the future!</p>";
+        return;
+      }
+
+      let years = today.getFullYear() - dob.getFullYear();
+      let months = today.getMonth() - dob.getMonth();
+      let days = today.getDate() - dob.getDate();
+
+      if (days < 0) {
+        months--;
+        const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+        days += lastMonth.getDate();
+      }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      resultDiv.innerHTML = `
+        <div class="result-box">
+          <h3>Your Age:</h3>
+          <p><strong>${years}</strong> Years, <strong>${months}</strong> Months, and <strong>${days}</strong> Days</p>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
