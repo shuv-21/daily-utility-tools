@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Free EMI Calculator - Calculate Loan EMI Instantly | Daily Utilities</title>
+  <meta name="description" content="Use our free online EMI Calculator to quickly calculate your monthly Equated Monthly Installment for personal, home, and car loans. Get exact interest breakdowns.">
+  <meta name="keywords" content="emi calculator, loan calculator, personal loan emi, home loan emi, car loan emi, calculate emi online, daily utilities">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* Dark Theme Specific Styles for EMI Calculator */
+    .calculator-card {
+      background-color: var(--bg-card);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      border: 1px solid var(--border-color);
+    }
+
+    .content-section {
+      background-color: var(--bg-card);
+      padding: 2.5rem;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 2rem auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border: 1px solid var(--border-color);
+    }
+
+    h1 { color: var(--text-main); }
+    .content-section h2, .content-section h3, .content-section h4 {
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .content-section p {
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: #10b981; /* Emerald green accent */
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Input wrappers for symbols (₹ and %) */
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-prefix, .input-suffix {
+      position: absolute;
+      color: var(--text-muted);
+      font-weight: bold;
+      padding: 0 1rem;
+    }
+
+    .input-prefix { left: 0; }
+    .input-suffix { right: 0; }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 1rem;
+      padding-left: 2.5rem; /* Space for prefix */
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-size: 1.1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input#rate, input#tenure {
+      padding-left: 1rem;
+      padding-right: 2.5rem; /* Space for suffix */
+    }
+
+    input[type="number"]:focus {
+      border-color: #10b981;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #34d399, #059669); /* Finance Green */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 1rem;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Result Area */
+    .result-container {
+      margin-top: 2rem;
+      display: none;
+      animation: fadeIn 0.4s ease-in;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .emi-highlight {
+      background-color: rgba(16, 185, 129, 0.1);
+      border: 1px solid #10b981;
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .emi-amount {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #10b981;
+      margin: 10px 0;
+    }
+
+    .breakdown-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .breakdown-box {
+      background-color: var(--bg-main);
+      padding: 1.2rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .breakdown-value {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--text-main);
+      margin-top: 5px;
+    }
+    
+    .error-msg {
+      color: #ef4444;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <a href="index.html" class="logo">
+      <div>
+        Daily Utilities
+        <span>dailyutilities.shop</span>
+      </div>
+    </a>
+  </header>
+
+  <main class="container" style="margin-top: 3rem;">
+    
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <a href="index.html" class="back-link">← Back to All Tools</a>
+      <h1>EMI Calculator</h1>
+      <p style="color: var(--text-muted); margin-top: 5px;">Plan your loans with exact EMI & interest breakdowns.</p>
+    </div>
+
+    <div class="calculator-card">
+      
+      <p id="errorMsg" class="error-msg">Please enter valid numbers in all fields.</p>
+
+      <div class="input-group">
+        <label for="amount">Loan Amount (Principal)</label>
+        <div class="input-wrapper">
+          <span class="input-prefix">₹</span>
+          <input type="number" id="amount" placeholder="100000" min="0">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="rate">Interest Rate (Yearly)</label>
+        <div class="input-wrapper">
+          <input type="number" id="rate" placeholder="10.5" step="0.1" min="0">
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="tenure">Loan Tenure (in Years)</label>
+        <div class="input-wrapper">
+          <input type="number" id="tenure" placeholder="5" min="0" step="0.5">
+          <span class="input-suffix">Yrs</span>
+        </div>
+      </div>
+      
+      <button class="action-btn" onclick="calculateEMI()">Calculate EMI</button>
+
+      <div id="resultContainer" class="result-container">
+        
+        <div class="emi-highlight">
+          <p style="color: var(--text-muted); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">Monthly EMI</p>
+          <div id="emiResult" class="emi-amount">₹0</div>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-box">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Total Interest Payable</p>
+            <div id="interestResult" class="breakdown-value">₹0</div>
+          </div>
+          <div class="breakdown-box">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Total Payment (Prin + Int)</p>
+            <div id="totalResult" class="breakdown-value">₹0</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <section class="content-section">
+      <h2>Free Online Loan EMI Calculator</h2>
+      <p>Taking a personal loan, home loan, or car loan? Our <strong>Free EMI Calculator</strong> helps you figure out exactly how much you will pay every month. It instantly calculates your Equated Monthly Installment (EMI), the total interest you will pay over the life of the loan, and the grand total cost.</p>
+      
+      <h3>Frequently Asked Questions (FAQ)</h3>
+      
+      <h4>How does the EMI calculation work?</h4>
+      <p>The mathematical formula used to calculate your EMI is: <strong>E = P x R x (1+R)^N / [(1+R)^N-1]</strong>. <br><br>Where <strong>E</strong> is the EMI, <strong>P</strong> is the Principal loan amount, <strong>R</strong> is the monthly interest rate (annual rate divided by 12), and <strong>N</strong> is the loan duration in months. Our tool processes this complex formula instantly within your browser.</p>
+
+      <h4>Is this accurate for Indian Banks (SBI, HDFC, ICICI)?</h4>
+      <p>Yes. Indian banks use the standard reducing balance method to calculate EMIs, which is exactly the algorithm this calculator uses. Simply enter the interest rate provided by your bank to get your exact monthly payment.</p>
+
+      <h4>How can I reduce my Total Interest payable?</h4>
+      <p>You can reduce your total interest burden by either securing a lower interest rate, paying a higher down payment (reducing your principal amount), or opting for a shorter loan tenure. Keep in mind that a shorter loan tenure will increase your monthly EMI, but significantly decrease the interest paid over time.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Daily Utilities. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function calculateEMI() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const rateYearly = parseFloat(document.getElementById('rate').value);
+      const tenureYears = parseFloat(document.getElementById('tenure').value);
+      
+      const errorMsg = document.getElementById('errorMsg');
+      const resultContainer = document.getElementById('resultContainer');
+
+      // Validation
+      if (!amount || !rateYearly || !tenureYears || amount <= 0 || rateYearly <= 0 || tenureYears <= 0) {
+        errorMsg.style.display = "block";
+        resultContainer.style.display = "none";
+        return;
+      }
+
+      errorMsg.style.display = "none";
+
+      // Math for EMI
+      // R = Monthly Interest Rate
+      // N = Total number of months
+      const R = (rateYearly / 12) / 100;
+      const N = tenureYears * 12;
+
+      // Formula: EMI = P * R * ( (1+R)^N / ((1+R)^N - 1) )
+      const emi = amount * R * (Math.pow(1 + R, N) / (Math.pow(1 + R, N) - 1));
+      
+      const totalPayment = emi * N;
+      const totalInterest = totalPayment - amount;
+
+      // Format as Indian Rupee (INR)
+      const formatINR = new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+      });
+
+      // Update DOM
+      document.getElementById('emiResult').innerText = formatINR.format(Math.round(emi));
+      document.getElementById('totalResult').innerText = formatINR.format(Math.round(totalPayment));
+      document.getElementById('interestResult').innerText = formatINR.format(Math.round(totalInterest));
+
+      // Show Results
+      resultContainer.style.display = "block";
+    }
+  </script>
+</body>
+</html>

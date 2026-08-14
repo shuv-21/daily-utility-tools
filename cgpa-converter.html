@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Free CGPA to Percentage Converter | Daily Utilities</title>
+  <meta name="description" content="Instantly convert your CGPA to percentage using our free online calculator. Supports CBSE 9.5 multiplier and custom university grading scales.">
+  <meta name="keywords" content="cgpa to percentage, cgpa calculator, convert cgpa, cbse cgpa calculator, university cgpa to percentage, daily utilities">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* Dark Theme Specific Styles for CGPA Converter */
+    .calculator-card {
+      background-color: var(--bg-card);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 500px;
+      margin: 0 auto 2rem auto;
+      border: 1px solid var(--border-color);
+    }
+
+    .content-section {
+      background-color: var(--bg-card);
+      padding: 2.5rem;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 2rem auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border: 1px solid var(--border-color);
+    }
+
+    h1 { color: var(--text-main); }
+    .content-section h2, .content-section h3, .content-section h4 {
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .content-section p {
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: #818cf8; /* Indigo accent */
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .helper-text {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: normal;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-size: 1.1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="number"]:focus {
+      border-color: #818cf8;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #818cf8, #4f46e5); /* Indigo Gradient */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 1rem;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Result Area */
+    .result-container {
+      margin-top: 2rem;
+      display: none;
+      animation: fadeIn 0.4s ease-in;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .percentage-highlight {
+      background-color: rgba(99, 102, 241, 0.1);
+      border: 1px solid #6366f1;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .percentage-amount {
+      font-size: 3.5rem;
+      font-weight: bold;
+      color: #818cf8;
+      margin: 10px 0;
+    }
+    
+    .error-msg {
+      color: #ef4444;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <a href="index.html" class="logo">
+      <div>
+        Daily Utilities
+        <span>dailyutilities.shop</span>
+      </div>
+    </a>
+  </header>
+
+  <main class="container" style="margin-top: 3rem;">
+    
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <a href="index.html" class="back-link">← Back to All Tools</a>
+      <h1>CGPA to Percentage Converter</h1>
+      <p style="color: var(--text-muted); margin-top: 5px;">Convert your grades instantly for college or job applications.</p>
+    </div>
+
+    <div class="calculator-card">
+      
+      <p id="errorMsg" class="error-msg">Please enter a valid CGPA (Maximum 10).</p>
+
+      <div class="input-group">
+        <label for="cgpa">
+          Your CGPA
+          <span class="helper-text">Max 10.0</span>
+        </label>
+        <input type="number" id="cgpa" placeholder="e.g., 8.5" step="0.01" min="0" max="10">
+      </div>
+
+      <div class="input-group">
+        <label for="multiplier">
+          Conversion Multiplier
+          <span class="helper-text">CBSE uses 9.5</span>
+        </label>
+        <input type="number" id="multiplier" value="9.5" step="0.1" min="1">
+      </div>
+      
+      <button class="action-btn" onclick="calculatePercentage()">Convert to Percentage</button>
+
+      <div id="resultContainer" class="result-container">
+        <div class="percentage-highlight">
+          <p style="color: var(--text-muted); font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Equivalent Percentage</p>
+          <div id="percentageResult" class="percentage-amount">0%</div>
+        </div>
+      </div>
+
+    </div>
+
+    <section class="content-section">
+      <h2>Free Online CGPA to Percentage Calculator</h2>
+      <p>Whether you are filling out a college admission form, applying for a scholarship, or submitting a job application, you often need to convert your Cumulative Grade Point Average (CGPA) into a standard percentage. Our <strong>Free CGPA Converter</strong> does the math for you instantly.</p>
+      
+      <h3>Frequently Asked Questions (FAQ)</h3>
+      
+      <h4>How do I convert CBSE CGPA to percentage?</h4>
+      <p>The Central Board of Secondary Education (CBSE) in India uses a standard multiplier of <strong>9.5</strong>. To find your percentage, simply multiply your total CGPA by 9.5. For example, if your CGPA is 8.0, your percentage is 8.0 x 9.5 = 76%.</p>
+
+      <h4>Why is the multiplier customizable?</h4>
+      <p>While CBSE schools use 9.5, many engineering colleges, state boards, and international universities use different conversion formulas. Some universities use a straight <strong>10.0</strong> multiplier (where 8.5 CGPA = 85%), while others use custom formulas (like subtracting 0.75 and multiplying by 10). We built the multiplier box so you can adjust the tool to fit your specific university's guidelines.</p>
+
+      <h4>Is CGPA out of 4.0 or 10.0?</h4>
+      <p>In India, the most common grading scale is out of 10.0. However, universities in the United States and Canada typically use a 4.0 scale. This calculator is optimized for the Indian 10.0 grading system.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Daily Utilities. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function calculatePercentage() {
+      const cgpa = parseFloat(document.getElementById('cgpa').value);
+      const multiplier = parseFloat(document.getElementById('multiplier').value);
+      
+      const errorMsg = document.getElementById('errorMsg');
+      const resultContainer = document.getElementById('resultContainer');
+      const percentageResult = document.getElementById('percentageResult');
+
+      // Validation
+      if (!cgpa || !multiplier || cgpa <= 0 || cgpa > 10 || multiplier <= 0) {
+        errorMsg.style.display = "block";
+        resultContainer.style.display = "none";
+        return;
+      }
+
+      errorMsg.style.display = "none";
+
+      // Math
+      let percentage = cgpa * multiplier;
+      
+      // Cap at 100% just in case
+      if (percentage > 100) {
+        percentage = 100;
+      }
+
+      // Format to 2 decimal places if needed
+      percentage = Math.round(percentage * 100) / 100;
+
+      // Update DOM
+      percentageResult.innerText = percentage + "%";
+
+      // Show Results
+      resultContainer.style.display = "block";
+    }
+  </script>
+</body>
+</html>

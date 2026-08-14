@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Free BMI Calculator - Check Your Body Mass Index | Daily Utilities</title>
+  <meta name="description" content="Use our free online BMI Calculator to quickly check your Body Mass Index. Enter your height and weight to see if you are in a healthy weight range.">
+  <meta name="keywords" content="bmi calculator, body mass index, check bmi online, healthy weight calculator, daily utilities">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* Dark Theme Specific Styles for BMI Calculator */
+    .calculator-card {
+      background-color: var(--bg-card);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 450px;
+      margin: 0 auto 2rem auto;
+      border: 1px solid var(--border-color);
+    }
+
+    .content-section {
+      background-color: var(--bg-card);
+      padding: 2.5rem;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 2rem auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border: 1px solid var(--border-color);
+    }
+
+    h1 { color: var(--text-main); }
+    .content-section h2, .content-section h3, .content-section h4 {
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .content-section p {
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: #f59e0b; /* Amber accent */
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="number"]:focus {
+      border-color: #f59e0b;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #fbbf24, #d97706); /* Amber gradient */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(217, 119, 6, 0.4);
+    }
+
+    /* Result Box Styles */
+    .result-box {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      display: none;
+      border-left: 5px solid;
+    }
+
+    .bmi-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    
+    .bmi-status {
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Status Colors */
+    .status-underweight { background-color: rgba(59, 130, 246, 0.1); border-color: #3b82f6; color: #60a5fa; }
+    .status-normal { background-color: rgba(16, 185, 129, 0.1); border-color: #10b981; color: #34d399; }
+    .status-overweight { background-color: rgba(245, 158, 11, 0.1); border-color: #f59e0b; color: #fbbf24; }
+    .status-obese { background-color: rgba(239, 68, 68, 0.1); border-color: #ef4444; color: #f87171; }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <a href="index.html" class="logo">
+      <div>
+        Daily Utilities
+        <span>dailyutilities.shop</span>
+      </div>
+    </a>
+  </header>
+
+  <main class="container" style="margin-top: 3rem;">
+    
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <a href="index.html" class="back-link">← Back to All Tools</a>
+      <h1>BMI Calculator</h1>
+      <p style="color: var(--text-muted); margin-top: 5px;">Check your Body Mass Index instantly.</p>
+    </div>
+
+    <div class="calculator-card">
+      
+      <label for="weight">Weight (in kg):</label>
+      <input type="number" id="weight" placeholder="e.g., 70" step="0.1">
+
+      <label for="height">Height (in cm):</label>
+      <input type="number" id="height" placeholder="e.g., 175">
+      
+      <button class="action-btn" onclick="calculateBMI()">Calculate BMI</button>
+
+      <div id="resultBox" class="result-box">
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Your BMI is:</p>
+        <div id="bmiValue" class="bmi-value">0.0</div>
+        <div id="bmiStatus" class="bmi-status">Status</div>
+      </div>
+
+    </div>
+
+    <section class="content-section">
+      <h2>Free Online Body Mass Index (BMI) Calculator</h2>
+      <p>Body Mass Index (BMI) is a simple measurement using a person's height and weight to determine if they are in a healthy weight range. Our <strong>Free Online BMI Calculator</strong> provides instant, accurate results based on World Health Organization (WHO) standards.</p>
+      
+      <h3>Frequently Asked Questions (FAQ)</h3>
+      
+      <h4>How is BMI calculated?</h4>
+      <p>The formula for BMI is weight in kilograms divided by height in meters squared (kg/m²). Our tool handles the math for you—just enter your standard height in centimeters and weight in kilograms.</p>
+
+      <h4>What do the BMI categories mean?</h4>
+      <p>According to the WHO, the standard weight status categories associated with BMI ranges for adults are:</p>
+      <ul style="color: var(--text-muted); line-height: 1.7; margin-left: 20px; margin-bottom: 15px;">
+        <li><strong>Below 18.5:</strong> Underweight</li>
+        <li><strong>18.5 to 24.9:</strong> Normal (Healthy Weight)</li>
+        <li><strong>25.0 to 29.9:</strong> Overweight</li>
+        <li><strong>30.0 and Above:</strong> Obese</li>
+      </ul>
+
+      <h4>Is BMI accurate for everyone?</h4>
+      <p>While BMI is a great general indicator of health for most adults, it does have limitations. It does not distinguish between body fat and muscle mass. Therefore, highly muscular athletes may have a high BMI but a low body fat percentage. Always consult a healthcare professional for a complete health assessment.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Daily Utilities. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function calculateBMI() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const heightCm = parseFloat(document.getElementById('height').value);
+      const resultBox = document.getElementById('resultBox');
+      const bmiValue = document.getElementById('bmiValue');
+      const bmiStatus = document.getElementById('bmiStatus');
+
+      // Reset classes
+      resultBox.className = "result-box"; 
+
+      if (!weight || !heightCm || weight <= 0 || heightCm <= 0) {
+        resultBox.style.display = "block";
+        resultBox.classList.add("status-obese"); // Using red styling for error
+        bmiValue.innerText = "Error";
+        bmiStatus.innerText = "Please enter valid numbers.";
+        return;
+      }
+
+      // Calculate BMI
+      const heightM = heightCm / 100;
+      const bmi = (weight / (heightM * heightM)).toFixed(1);
+
+      bmiValue.innerText = bmi;
+      resultBox.style.display = "block";
+
+      // Determine category and apply colors
+      if (bmi < 18.5) {
+        bmiStatus.innerText = "Underweight";
+        resultBox.classList.add("status-underweight");
+      } else if (bmi >= 18.5 && bmi <= 24.9) {
+        bmiStatus.innerText = "Normal Weight";
+        resultBox.classList.add("status-normal");
+      } else if (bmi >= 25 && bmi <= 29.9) {
+        bmiStatus.innerText = "Overweight";
+        resultBox.classList.add("status-overweight");
+      } else {
+        bmiStatus.innerText = "Obese";
+        resultBox.classList.add("status-obese");
+      }
+    }
+  </script>
+</body>
+</html>

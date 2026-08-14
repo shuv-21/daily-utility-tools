@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Free QR Code Generator - Create QR Codes Instantly | Daily Utilities</title>
+  <meta name="description" content="Use our free online QR Code Generator to instantly create scannable QR codes for links, text, emails, and phone numbers. Download in high quality.">
+  <meta name="keywords" content="qr code generator, free qr code, create qr code online, qr code maker, daily utilities">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
+  <style>
+    /* Dark Theme Specific Styles for QR Generator */
+    .calculator-card {
+      background-color: var(--bg-card);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 550px;
+      margin: 0 auto 2rem auto;
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .content-section {
+      background-color: var(--bg-card);
+      padding: 2.5rem;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 2rem auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border: 1px solid var(--border-color);
+    }
+
+    h1 { color: var(--text-main); }
+    .content-section h2, .content-section h3, .content-section h4 {
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .content-section p {
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent-cyan);
+    }
+
+    /* Input Field */
+    input[type="text"], input[type="url"] {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus, input[type="url"]:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    /* Buttons */
+    .action-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #22d3ee, #0891b2);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 1rem;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(34, 211, 238, 0.3);
+    }
+
+    .download-btn {
+      background: #10b981;
+      display: none; /* Hidden until QR is generated */
+    }
+
+    .download-btn:hover {
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    /* QR Code Display Area */
+    #qr-container {
+      margin: 1.5rem auto;
+      padding: 1.5rem;
+      background-color: white; /* MUST be white so phones can scan it */
+      border-radius: 8px;
+      display: inline-block;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    #qr-container img, #qr-container canvas {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .error-msg {
+      color: #ef4444;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <a href="index.html" class="logo">
+      <div>
+        Daily Utilities
+        <span>dailyutilities.shop</span>
+      </div>
+    </a>
+  </header>
+
+  <main class="container" style="margin-top: 3rem;">
+    
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <a href="index.html" class="back-link">← Back to All Tools</a>
+      <h1>QR Code Generator</h1>
+      <p style="color: var(--text-muted); margin-top: 5px;">Enter a link or text to generate a scannable QR code.</p>
+    </div>
+
+    <div class="calculator-card">
+      
+      <p id="errorMsg" class="error-msg">Please enter some text or a valid URL.</p>
+      
+      <input type="text" id="qrInput" placeholder="e.g., https://google.com or 'Hello World'">
+      
+      <button class="action-btn" onclick="generateQR()">Generate QR Code</button>
+
+      <div id="qr-container"></div>
+      
+      <button id="downloadBtn" class="action-btn download-btn" onclick="downloadQR()">Download Image</button>
+
+    </div>
+
+    <section class="content-section">
+      <h2>Free Online QR Code Generator</h2>
+      <p>Need to share a website link, your contact information, or a Wi-Fi password quickly? Our <strong>Online QR Code Generator</strong> allows you to turn any text or URL into a scannable graphic instantly. Just type your information into the box above, click generate, and scan it with any smartphone camera.</p>
+      
+      <h3>Frequently Asked Questions (FAQ)</h3>
+      
+      <h4>Do these QR codes expire?</h4>
+      <p>No, the QR codes generated on this website are static and will never expire. Because the data is encoded directly into the pattern of the image itself, the code will work forever as long as the underlying link or text remains active.</p>
+
+      <h4>Is this tool safe and private?</h4>
+      <p>Absolutely. We use a client-side JavaScript library to generate your QR code directly within your browser. This means the links or text you type are never sent to our servers or stored in any database. Your information remains 100% private.</p>
+
+      <h4>Why is the background of the QR code white?</h4>
+      <p>While our website uses a modern dark theme, smartphone cameras rely on high contrast to properly read the data in a QR code. The black squares must be placed on a solid white background to ensure fast and accurate scanning across all devices.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Daily Utilities. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const qrInput = document.getElementById("qrInput");
+    const qrContainer = document.getElementById("qr-container");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const errorMsg = document.getElementById("errorMsg");
+
+    function generateQR() {
+      const text = qrInput.value.trim();
+      
+      // Reset state
+      errorMsg.style.display = "none";
+      qrContainer.innerHTML = "";
+      downloadBtn.style.display = "none";
+
+      if (!text) {
+        errorMsg.style.display = "block";
+        return;
+      }
+
+      // Generate the new QR code
+      new QRCode(qrContainer, {
+        text: text,
+        width: 220,
+        height: 220,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+
+      // Show download button after a tiny delay to ensure canvas is drawn
+      setTimeout(() => {
+        downloadBtn.style.display = "block";
+      }, 300);
+    }
+
+    function downloadQR() {
+      // Find the image or canvas generated by the library
+      const img = qrContainer.querySelector("img");
+      const canvas = qrContainer.querySelector("canvas");
+      
+      let imageURL = "";
+      
+      if (img && img.src) {
+        imageURL = img.src;
+      } else if (canvas) {
+        imageURL = canvas.toDataURL("image/png");
+      }
+
+      if (imageURL) {
+        const link = document.createElement("a");
+        link.href = imageURL;
+        link.download = "DailyUtilities-QRCode.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+
+    // Allow user to hit 'Enter' to generate
+    qrInput.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        generateQR();
+      }
+    });
+  </script>
+</body>
+</html>

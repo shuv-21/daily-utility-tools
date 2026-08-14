@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Free SIP Calculator - Calculate Mutual Fund Returns | Daily Utilities</title>
+  <meta name="description" content="Use our free online SIP Calculator to estimate your mutual fund returns. Calculate wealth gain and total expected maturity value instantly.">
+  <meta name="keywords" content="sip calculator, mutual fund calculator, return calculator, investment calculator, wealth growth, daily utilities">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* Dark Theme Specific Styles for SIP Calculator */
+    .calculator-card {
+      background-color: var(--bg-card);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      border: 1px solid var(--border-color);
+    }
+
+    .content-section {
+      background-color: var(--bg-card);
+      padding: 2.5rem;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 2rem auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border: 1px solid var(--border-color);
+    }
+
+    h1 { color: var(--text-main); }
+    .content-section h2, .content-section h3, .content-section h4 {
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .content-section p {
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: #3b82f6; /* Trust Blue accent */
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Input wrappers for symbols */
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-prefix, .input-suffix {
+      position: absolute;
+      color: var(--text-muted);
+      font-weight: bold;
+      padding: 0 1rem;
+    }
+
+    .input-prefix { left: 0; }
+    .input-suffix { right: 0; }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 1rem;
+      padding-left: 2.5rem; /* Space for prefix */
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-size: 1.1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input#rate, input#time {
+      padding-left: 1rem;
+      padding-right: 2.5rem; /* Space for suffix */
+    }
+
+    input[type="number"]:focus {
+      border-color: #3b82f6;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #60a5fa, #2563eb); /* Trust Blue Gradient */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 1rem;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Result Area */
+    .result-container {
+      margin-top: 2rem;
+      display: none;
+      animation: fadeIn 0.4s ease-in;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .total-highlight {
+      background-color: rgba(59, 130, 246, 0.1);
+      border: 1px solid #3b82f6;
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .total-amount {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #60a5fa;
+      margin: 10px 0;
+    }
+
+    .breakdown-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .breakdown-box {
+      background-color: var(--bg-main);
+      padding: 1.2rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .breakdown-value {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--text-main);
+      margin-top: 5px;
+    }
+    
+    .error-msg {
+      color: #ef4444;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <a href="index.html" class="logo">
+      <div>
+        Daily Utilities
+        <span>dailyutilities.shop</span>
+      </div>
+    </a>
+  </header>
+
+  <main class="container" style="margin-top: 3rem;">
+    
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <a href="index.html" class="back-link">← Back to All Tools</a>
+      <h1>SIP Return Calculator</h1>
+      <p style="color: var(--text-muted); margin-top: 5px;">Estimate your mutual fund returns and wealth growth.</p>
+    </div>
+
+    <div class="calculator-card">
+      
+      <p id="errorMsg" class="error-msg">Please enter valid numbers in all fields.</p>
+
+      <div class="input-group">
+        <label for="investment">Monthly Investment (SIP)</label>
+        <div class="input-wrapper">
+          <span class="input-prefix">₹</span>
+          <input type="number" id="investment" placeholder="5000" min="100">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="rate">Expected Return Rate (Yearly)</label>
+        <div class="input-wrapper">
+          <input type="number" id="rate" placeholder="12" step="0.1" min="1" max="50">
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="time">Time Period</label>
+        <div class="input-wrapper">
+          <input type="number" id="time" placeholder="10" min="1" max="50">
+          <span class="input-suffix">Yrs</span>
+        </div>
+      </div>
+      
+      <button class="action-btn" onclick="calculateSIP()">Calculate Returns</button>
+
+      <div id="resultContainer" class="result-container">
+        
+        <div class="total-highlight">
+          <p style="color: var(--text-muted); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">Expected Total Value</p>
+          <div id="totalValue" class="total-amount">₹0</div>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-box">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Total Amount Invested</p>
+            <div id="investedAmount" class="breakdown-value">₹0</div>
+          </div>
+          <div class="breakdown-box">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Est. Wealth Gained</p>
+            <div id="wealthGained" class="breakdown-value" style="color: #34d399;">₹0</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <section class="content-section">
+      <h2>Free Online SIP & Mutual Fund Calculator</h2>
+      <p>A Systematic Investment Plan (SIP) is one of the most effective ways to build long-term wealth. By investing a fixed amount in mutual funds every month, you benefit from Rupee Cost Averaging and the immense power of compounding. Our <strong>Free SIP Return Calculator</strong> helps you project exactly how much your monthly investments could be worth in the future.</p>
+      
+      <h3>Frequently Asked Questions (FAQ)</h3>
+      
+      <h4>How does the SIP calculator work?</h4>
+      <p>This calculator uses the standard compound interest formula customized for monthly contributions. It assumes that your investment is made at the beginning of every month. The formula accounts for your monthly investment amount, the expected annual rate of return, and the total duration of your investment.</p>
+
+      <h4>What is a realistic expected return rate?</h4>
+      <p>While mutual fund returns are never guaranteed and depend entirely on market performance, historically, broad equity mutual funds (like Nifty 50 Index Funds) in India have delivered average annualized returns of roughly 10% to 12% over the long term (10+ years).</p>
+
+      <h4>Why is my wealth gained higher than my invested amount?</h4>
+      <p>That is the magic of compounding! In the later years of your investment, you begin earning interest not only on the money you deposited but also on the interest you've already accumulated. The longer you stay invested, the more dramatic this compounding effect becomes.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Daily Utilities. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function calculateSIP() {
+      const P = parseFloat(document.getElementById('investment').value);
+      const annualRate = parseFloat(document.getElementById('rate').value);
+      const years = parseFloat(document.getElementById('time').value);
+      
+      const errorMsg = document.getElementById('errorMsg');
+      const resultContainer = document.getElementById('resultContainer');
+
+      // Validation
+      if (!P || !annualRate || !years || P <= 0 || annualRate <= 0 || years <= 0) {
+        errorMsg.style.display = "block";
+        resultContainer.style.display = "none";
+        return;
+      }
+
+      errorMsg.style.display = "none";
+
+      // SIP Math Formula: M = P * ({[1 + i]^n - 1} / i) * (1 + i)
+      // i = monthly interest rate
+      // n = total number of months
+      const i = annualRate / 12 / 100;
+      const n = years * 12;
+
+      // Maturity Amount
+      const maturityValue = P * ((Math.pow(1 + i, n) - 1) / i) * (1 + i);
+      
+      // Breakdown
+      const investedAmount = P * n;
+      const wealthGained = maturityValue - investedAmount;
+
+      // Format as Indian Rupee (INR)
+      const formatINR = new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+      });
+
+      // Update DOM
+      document.getElementById('totalValue').innerText = formatINR.format(Math.round(maturityValue));
+      document.getElementById('investedAmount').innerText = formatINR.format(Math.round(investedAmount));
+      document.getElementById('wealthGained').innerText = formatINR.format(Math.round(wealthGained));
+
+      // Show Results
+      resultContainer.style.display = "block";
+    }
+  </script>
+</body>
+</html>

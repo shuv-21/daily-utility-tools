@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Free Word Counter - Count Words, Characters & Sentences | Daily Utilities</title>
+  <meta name="description" content="Use our free online Word Counter to instantly count words, characters, paragraphs, and reading time in real-time. Fast, secure, and easy to use.">
+  <meta name="keywords" content="word counter, character counter, letter counter, paragraph counter, reading time calculator, daily utilities">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* Dark Theme Specific Styles for Word Counter */
+    .calculator-card {
+      background-color: var(--bg-card);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 800px;
+      margin: 0 auto 2rem auto;
+      border: 1px solid var(--border-color);
+    }
+
+    .content-section {
+      background-color: var(--bg-card);
+      padding: 2.5rem;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 2rem auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border: 1px solid var(--border-color);
+    }
+
+    h1 { color: var(--text-main); }
+    .content-section h2, .content-section h3, .content-section h4 {
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .content-section p {
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: #c084fc; /* Purple accent on hover */
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-box {
+      background-color: var(--bg-main);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .stat-box:hover {
+      transform: translateY(-2px);
+      border-color: #c084fc;
+    }
+
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #c084fc; /* Purple matching the homepage icon */
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Text Area */
+    textarea {
+      width: 100%;
+      height: 250px;
+      padding: 1.2rem;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      resize: vertical;
+      outline: none;
+      line-height: 1.5;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus {
+      border-color: #c084fc;
+      box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.1);
+    }
+    
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      align-items: center;
+    }
+    
+    .clear-btn {
+      background: transparent;
+      color: #ef4444;
+      border: 1px solid #ef4444;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    
+    .clear-btn:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <a href="index.html" class="logo">
+      <div>
+        Daily Utilities
+        <span>dailyutilities.shop</span>
+      </div>
+    </a>
+  </header>
+
+  <main class="container" style="margin-top: 3rem;">
+    
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <a href="index.html" class="back-link">← Back to All Tools</a>
+      <h1>Word & Character Counter</h1>
+      <p style="color: var(--text-muted); margin-top: 5px;">Type or paste your text to get real-time statistics.</p>
+    </div>
+
+    <div class="calculator-card">
+      
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-number" id="wordCount">0</div>
+          <div class="stat-label">Words</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="charCount">0</div>
+          <div class="stat-label">Characters</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="sentenceCount">0</div>
+          <div class="stat-label">Sentences</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="paragraphCount">0</div>
+          <div class="stat-label">Paragraphs</div>
+        </div>
+      </div>
+
+      <textarea id="textInput" placeholder="Start typing or paste your document here..."></textarea>
+      
+      <div class="action-row">
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Estimated Reading Time: <strong style="color: var(--text-main);" id="readingTime">0 min</strong></p>
+        <button class="clear-btn" onclick="clearText()">Clear Text</button>
+      </div>
+    </div>
+
+    <section class="content-section">
+      <h2>Free Online Word and Character Counter</h2>
+      <p>Whether you are writing an essay, a tweet, a blog post, or a professional email, keeping track of your word count is essential. Our <strong>Online Word Counter</strong> provides instant, real-time metrics for your text. Simply type or paste your content into the box above, and the tool will automatically calculate your words, characters, sentences, and paragraphs.</p>
+      
+      <h3>Frequently Asked Questions (FAQ)</h3>
+      
+      <h4>Is my text saved or stored anywhere?</h4>
+      <p>No, your privacy is strictly protected. This Word Counter operates entirely within your web browser using client-side JavaScript. Your text is never sent over the internet or saved to any servers. It is 100% private and secure.</p>
+
+      <h4>How is the Estimated Reading Time calculated?</h4>
+      <p>The estimated reading time is based on the average adult reading speed, which is roughly 200 to 250 words per minute. Our tool takes your total word count and divides it to give you a highly accurate estimate of how long it will take someone to read your content.</p>
+
+      <h4>Why use a character counter?</h4>
+      <p>Many platforms have strict character limits. For example, X (formerly Twitter) allows 280 characters, while SMS text messages are usually limited to 160 characters. SEO meta descriptions are best kept under 160 characters as well. Our real-time character counter helps you stay perfectly within those limits without having to guess.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Daily Utilities. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const textInput = document.getElementById('textInput');
+    const wordCountDisplay = document.getElementById('wordCount');
+    const charCountDisplay = document.getElementById('charCount');
+    const sentenceCountDisplay = document.getElementById('sentenceCount');
+    const paragraphCountDisplay = document.getElementById('paragraphCount');
+    const readingTimeDisplay = document.getElementById('readingTime');
+
+    // Function to analyze text and update stats in real-time
+    function analyzeText() {
+      const text = textInput.value;
+      
+      // Character Count
+      const charCount = text.length;
+      charCountDisplay.textContent = charCount.toLocaleString();
+
+      // Word Count
+      // Splits text by any whitespace and filters out empty strings
+      const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+      const wordCount = words.length;
+      wordCountDisplay.textContent = wordCount.toLocaleString();
+
+      // Sentence Count
+      // Splits by standard punctuation marks
+      const sentences = text.split(/[.?!]+/).filter(sentence => sentence.trim().length > 0);
+      sentenceCountDisplay.textContent = text.trim() === '' ? '0' : sentences.length.toLocaleString();
+
+      // Paragraph Count
+      // Splits by new line characters
+      const paragraphs = text.split(/\n+/).filter(paragraph => paragraph.trim().length > 0);
+      paragraphCountDisplay.textContent = text.trim() === '' ? '0' : paragraphs.length.toLocaleString();
+
+      // Reading Time (Avg 200 words per minute)
+      if (wordCount === 0) {
+        readingTimeDisplay.textContent = "0 min";
+      } else {
+        const time = Math.ceil(wordCount / 200);
+        readingTimeDisplay.textContent = time + (time === 1 ? " min" : " mins");
+      }
+    }
+
+    // Event listener runs the function every time the user types or pastes
+    textInput.addEventListener('input', analyzeText);
+
+    // Function to clear the textarea
+    function clearText() {
+      textInput.value = '';
+      analyzeText(); // Re-run to reset numbers to 0
+      textInput.focus();
+    }
+  </script>
+</body>
+</html>

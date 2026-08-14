@@ -8,4 +8,28 @@
     <loc>https://dailyutilities.shop/age-calculator.html</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://dailyutilities.shop/word-counter.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dailyutilities.shop/qr-generator.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dailyutilities.shop/bmi-calculator.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dailyutilities.shop/emi-calculator.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dailyutilities.shop/sip-calculator.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dailyutilities.shop/cgpa-converter.html</loc>
+    <priority>0.8</priority>
+  </url>
 </urlset>
